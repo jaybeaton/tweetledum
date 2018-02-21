@@ -90,7 +90,12 @@
         callAjax(url, function(content) {
             var results = JSON.parse(content);
             if (results['unread']) {
-                $('#unread-count').text(results['unread']);
+                var unread = parseInt(results['unread']);
+                unread--;
+                if (unread < 0) {
+                    unread = 0;
+                }
+                $('#unread-count').text(unread);
             }
         });
     };
@@ -155,12 +160,24 @@
         }
     });
 
+    var checkingLoadMore = false;
+
     $(window).scroll(function(){
+        if (!checkingLoadMore) {
+            checkingLoadMore = true;
+            checkLoadMore();
+            setTimeout(function() {
+                checkingLoadMore = false;
+            }, 100);
+        }
+    });
+
+    var checkLoadMore = function() {
         var button = $('#load-more').not('.loading');
         if (button.visible() && !noNewTweets) {
             button.addClass('loading');
             button.click();
         }
-    });
+    }
 
 })(jQuery);
