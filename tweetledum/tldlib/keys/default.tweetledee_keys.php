@@ -31,6 +31,6 @@ $my_db = array(
   'database' => 'ENTER YOUR DATABASE NAME',
   'username' => 'ENTER YOUR DATABASE USERNAME',
   'password' => 'ENTER YOUR DATABASE PASSWORD',
-  'host' => 'ENTER YOUR DATABASE HOST NAME',
+  'host' => 'localhost',
   'port' => '3306',
 );
