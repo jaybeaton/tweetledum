@@ -115,11 +115,10 @@ if ($code <> 200) {
 
 $homeTimelineObj = json_decode($tmhOAuth->response['response'], true);
 
-
-$sql = "REPLACE INTO tweetledum_tweets 
-    (id, `user`, body, `data`, `timestamp`)
+$sql = "REPLACE INTO tweetledum_tweets
+    (id, `user`, tweeter, body, `data`, `timestamp`)
     VALUES
-    (?, ?, ?, ?, ?) ";
+    (?, ?, ?, ?, ?, ?) ";
 $query = $db->prepare($sql);
 
 $utc = new DateTimeZone('UTC');
@@ -134,13 +133,16 @@ foreach ($homeTimelineObj as $item) {
   $data_field = array(
     'user_name' => $item['user']['name'],
     'retweeted' => (!empty($item['retweeted_status'])),
+    'link_url' => (!empty($item['entities']['urls'][0]['url'])) ? $item['entities']['urls'][0]['url'] : '',
+    'link_url_expanded' => (!empty($item['entities']['urls'][0]['expanded_url'])) ? $item['entities']['urls'][0]['expanded_url'] : '',
   );
 
   $data_field = serialize($data_field);
   $timestamp = $dateObj->format('U');
 
-  $query->bind_param('ssssi',
+  $query->bind_param('sssssi',
     $item['id'],
+    $data['screen_name'],
     $item['user']['screen_name'],
     $item['text'],
     $data_field,
