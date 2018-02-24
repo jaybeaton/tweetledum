@@ -175,7 +175,7 @@
 
     var checkLoadMore = function() {
         var button = $('#load-more').not('.loading');
-        if (button.visible() && !noNewTweets) {
+        if (button.visible(true) && !noNewTweets) {
             button.addClass('loading');
             button.click();
         }
