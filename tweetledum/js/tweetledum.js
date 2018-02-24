@@ -124,6 +124,17 @@
     }).addClass('load-processed').click();
 
     $(document).keydown(function (event) {
+
+        if (event.keyCode == 78) {
+            // Pressing "n" will bring active tweet to top.
+            event.preventDefault();
+            $('.active')[0].scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+            return;
+        }
+
         getTopItem();
         activeItem = $('.active');
         if (event.keyCode == 75) {
@@ -162,6 +173,7 @@
             var url = activeItem.attr('data-tweet');
             window.open(url, '_blank');
         } else if (event.keyCode == 82) {
+            // Pressing "r" will reload.
             location.reload();
         }
     });
