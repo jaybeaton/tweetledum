@@ -151,10 +151,15 @@
                 behavior: 'smooth',
                 block: 'start'
             });
-        //} else if (event.keyCode == 13 || event.keyCode == 186) {
         } else if (event.keyCode == 86) {
+            // Pressing "v" will open tweet.
             event.preventDefault();
             var url = activeItem.attr('data-url');
+            window.open(url, '_blank');
+        } else if (event.keyCode == 84) {
+            // Pressing "t" will open tweet.
+            event.preventDefault();
+            var url = activeItem.attr('data-tweet');
             window.open(url, '_blank');
         } else if (event.keyCode == 82) {
             location.reload();
