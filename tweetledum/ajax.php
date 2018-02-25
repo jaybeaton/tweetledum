@@ -69,7 +69,7 @@ EOT;
   elseif (!empty($row['data']['link_url'])) {
     $link_url = $row['data']['link_url'];
   }
-  if ($link_url) {
+  if ($link_url && !preg_match('~https?://twitter.com/~', $link_url)) {
     $link = '<a href="' . $link_url . '">' . htmlentities($link_url) . '</a>';
   }
   else {
