@@ -6,6 +6,7 @@ require 'tldlib/keys/tweetledee_keys.php';
 header('Access-Control-Allow-Origin: *');
 
 $num_per_page = 10;
+$max_display_link_len = 60;
 
 $db = new mysqli($my_db['host'],
   $my_db['username'],
@@ -69,8 +70,15 @@ EOT;
   elseif (!empty($row['data']['link_url'])) {
     $link_url = $row['data']['link_url'];
   }
-  if ($link_url && !preg_match('~https?://twitter.com/~', $link_url)) {
-    $link = '<a href="' . $link_url . '">' . htmlentities($link_url) . '</a>';
+  if ($link_url && !preg_match('~^https?://twitter.com/~', $link_url)) {
+    $display_url = preg_replace('~^https?://~', '', $link_url);
+    if (strlen($display_url) > $max_display_link_len) {
+      $display_url = htmlentities(substr($display_url, 0, ($max_display_link_len - 1))) . '&hellip;';
+    }
+    else {
+      $display_url = htmlentities($display_url);
+    }
+    $link = '<a href="' . $link_url . '">' . $display_url . '</a>';
   }
   else {
     $link_url = $tweet_url;
