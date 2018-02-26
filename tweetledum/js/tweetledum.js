@@ -35,7 +35,7 @@
             if (!content) {
                 noNewTweets = true;
                 $('.no-tweets-message').remove();
-                var message = '<div class="no-tweets-message alert alert-warning" role="alert">No new tweets found.</div>';
+                var message = '<div class="no-tweets-message" role="alert">No new tweets.</div>';
                 $('#load-more').before(message);
                 setTimeout(function() {
                     $('.no-tweets-message').fadeOut(500, function() {

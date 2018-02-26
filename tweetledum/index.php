@@ -65,14 +65,17 @@ if (!$error) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.css" crossorigin="anonymous">
-
     <title>Tweetledum Timeline</title>
     <style>
         body {
             margin: 10px 80px;
             background-color: #ddd;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            text-align: left;
         }
         .info-column {
             position: fixed;
@@ -104,7 +107,25 @@ if (!$error) {
             width: 545px;
         }
         #load-more {
+            width: 175px;
             margin: 20px 0 100px 0;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            -webkit-appearance: button;
         }
         .tweetledum-tweet {
             margin-bottom: 30px;
@@ -121,10 +142,17 @@ if (!$error) {
             border: 2px solid #999;
             background-color: #ccc;
         }
-        .alert {
-            width: 545px;
+        .no-tweets-message {
+            width: 135px;
+            position: relative;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-color: #333;
+            border-radius: 0.25rem;
+            color: #fff;
+            background-color: #999;
         }
-
     </style>
 </head>
 <body>
@@ -141,12 +169,10 @@ if (!$error) {
 </div>
 <div class="main">
     <div class="tweetledum-feed"></div>
-    <button id="load-more" class="btn btn-primary">Load More Tweets</button>
+    <button id="load-more">Load More Tweets</button>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="js/jquery.visible.min.js"></script>
 <script src="js/tweetledum.js"></script>
 
