@@ -142,7 +142,7 @@ if (!$error) {
             border: 2px solid #999;
             background-color: #ccc;
         }
-        .no-tweets-message {
+        .loading-message {
             width: 135px;
             position: relative;
             padding: 0.75rem 1.25rem;

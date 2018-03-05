@@ -21,6 +21,10 @@
 
     var processLoadMoreButton = function(button) {
 
+        $('.loading-message').remove();
+        var message = '<div class="loading-message" role="alert">Loading...</div>';
+        $('#load-more').before(message);
+
         $(button).addClass('loading');
 
         var lastID = $('.tweetledum-tweet').last().attr('data-id');
@@ -28,23 +32,27 @@
             lastID = 0;
         }
 
-        var url = 'ajax.php?id=' + lastID;
+        var url = 'ajax.php?id=' + lastID + '&t=' + Date.now();
 
         callAjax(url, function(content) {
 
             if (!content) {
                 noNewTweets = true;
-                $('.no-tweets-message').remove();
-                var message = '<div class="no-tweets-message" role="alert">No new tweets.</div>';
-                $('#load-more').before(message);
+                $('.loading-message').text('No new tweets.');
                 setTimeout(function() {
-                    $('.no-tweets-message').fadeOut(500, function() {
+                    $('.loading-message').fadeOut(500, function() {
                         $(this).remove();
                     });
                 }, 3000);
                 $(button).removeClass('loading');
                 return;
             }
+
+            setTimeout(function() {
+                $('.loading-message').fadeOut(500, function() {
+                    $(this).remove();
+                });
+            }, 1000);
 
             noNewTweets = false;
 
