@@ -1,5 +1,5 @@
 CREATE TABLE `tweetledum_tweets` (
-  `id` varchar(64) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `id` bigint(20) unsigned NOT NULL,
   `user` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `tweeter` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `body` text COLLATE utf8_unicode_ci,
