@@ -127,17 +127,42 @@ $tz = new DateTimeZone('America/New_York');
 $num = 0;
 foreach ($homeTimelineObj as $item) {
 
-  $dateObj = new DateTime('@' . strtotime($item['created_at']), $utc);
-  $dateObj->setTimezone($tz);
+  $quoted = [];
+  if (!empty($item['quoted_status'])) {
+    $dateObj = new DateTime('@' . strtotime($item['quoted_status']['created_at']), $utc);
+    $dateObj->setTimezone($tz);
+    $quoted = [
+      'id' => $item['quoted_status']['id'],
+      'name' => $item['quoted_status']['user']['name'],
+      'screen_name' => $item['quoted_status']['user']['screen_name'],
+      'body' => $item['quoted_status']['text'],
+      'timestamp' => $dateObj->format('U'),
+    ];
+  }
+  elseif (!empty($item['retweeted_status']['quoted_status'])) {
+    $dateObj = new DateTime('@' . strtotime($item['retweeted_status']['quoted_status']['created_at']), $utc);
+    $dateObj->setTimezone($tz);
+    $quoted = [
+      'id' => $item['retweeted_status']['quoted_status']['id'],
+      'name' => $item['retweeted_status']['quoted_status']['user']['name'],
+      'screen_name' => $item['retweeted_status']['quoted_status']['user']['screen_name'],
+      'body' => $item['retweeted_status']['quoted_status']['text'],
+      'timestamp' => $dateObj->format('U'),
+    ];
+  }
 
   $data_field = array(
     'user_name' => $item['user']['name'],
     'retweeted' => (!empty($item['retweeted_status'])),
     'link_url' => (!empty($item['entities']['urls'][0]['url'])) ? $item['entities']['urls'][0]['url'] : '',
     'link_url_expanded' => (!empty($item['entities']['urls'][0]['expanded_url'])) ? $item['entities']['urls'][0]['expanded_url'] : '',
+    'quoted' => $quoted,
   );
 
   $data_field = serialize($data_field);
+
+  $dateObj = new DateTime('@' . strtotime($item['created_at']), $utc);
+  $dateObj->setTimezone($tz);
   $timestamp = $dateObj->format('U');
 
   $query->bind_param('sssssi',

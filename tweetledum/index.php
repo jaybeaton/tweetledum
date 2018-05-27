@@ -153,6 +153,10 @@ if (!$error) {
             color: #fff;
             background-color: #999;
         }
+        .tweetledum-quoted {
+            width: 475px;
+            margin-left: 25px;
+        }
     </style>
 </head>
 <body>
