@@ -1,7 +1,23 @@
+var twtldDebug = false;
+var twtldUsername = '';
+
 (function($){
 
     var numToKeep = 30;
     var noNewTweets = false;
+
+    if (window.location.hash == '#debug') {
+        twtldDebug = true;
+    } else if (window.location.hash) {
+      twtldUsername = window.location.hash.substring(1);
+      if (twtldDebug) {
+        console.log('Setting username to "' + twtldUsername + '".');
+      }
+    }
+
+    console.log('window.location.hash:' + window.location.hash);
+    console.log('twtldDebug:' + twtldDebug);
+
 
     var callAjax = function (url, callback) {
         var xmlhttp;
@@ -15,11 +31,18 @@
                 }
             }
         };
+        if (twtldDebug) {
+            console.log('callAjax() : url=' + url);
+        }
         xmlhttp.open('GET', url, true);
         xmlhttp.send();
     };
 
     var processLoadMoreButton = function(button) {
+
+        if (twtldDebug) {
+            console.log('processLoadMoreButton() Called.');
+        }
 
         $('.loading-message').remove();
         var message = '<div class="loading-message" role="alert">Loading...</div>';
@@ -29,14 +52,23 @@
 
         var lastID = $('.tweetledum-tweet').last().attr('data-id');
         if (typeof lastID === 'undefined') {
+            if (twtldDebug) {
+                console.log('processLoadMoreButton() No last tweet found.');
+            }
             lastID = 0;
         }
 
         var url = 'ajax.php?id=' + lastID + '&t=' + Date.now();
 
+        if (twtldDebug) {
+            console.log('processLoadMoreButton() Will make Ajax call to url: ' + url);
+        }
         callAjax(url, function(content) {
 
             if (!content) {
+                if (twtldDebug) {
+                    console.log('processLoadMoreButton() No new content found.');
+                }
                 noNewTweets = true;
                 $('.loading-message').text('No new tweets.');
                 setTimeout(function() {
@@ -48,6 +80,9 @@
                 return;
             }
 
+            if (twtldDebug) {
+                console.log('processLoadMoreButton() Found new content.');
+            }
             setTimeout(function() {
                 $('.loading-message').fadeOut(500, function() {
                     $(this).remove();
@@ -89,10 +124,21 @@
     };
 
     var markActive = function(tweet) {
+        if (twtldDebug) {
+            console.log('markActive() called on tweet:');
+            console.log(tweet);
+        }
         $(tweet).addClass('active');
         var id = $(tweet).prev().attr('data-id');
         if (typeof id === 'undefined') {
+            // No previous tweet.
             id = 0;
+            if (twtldDebug) {
+                console.log('markActive() No previous tweet found.');
+            }
+        }
+        if (twtldDebug) {
+            console.log('markActive() Mark previous tweet read, id (' + id + ').');
         }
         var url = 'mark-read.php?id=' + id;
         callAjax(url, function(content) {
@@ -103,6 +149,9 @@
                 if (unread < 0) {
                     unread = 0;
                 }
+                if (twtldDebug) {
+                    console.log('markActive() Setting unread count to (' + unread + ').');
+                }
                 $('#unread-count').text(unread);
             }
         });
@@ -110,16 +159,32 @@
 
     var getTopItem = function() {
 
+        if (twtldDebug) {
+            console.log('getTopItem() Called.');
+        }
         var active = $('.active');
         if (active.length > 0 && active.visible(true)) {
+            if (twtldDebug) {
+                console.log('getTopItem() Active item exists and is visible.');
+            }
             return;
         }
 
         $('.tweetledum-tweet').removeClass('active');
         var activeElement = document.elementFromPoint(200, 75);
+        if (twtldDebug) {
+          console.log('getTopItem() activeElement is:');
+          console.log(activeElement);
+        }
         if (!$(activeElement).hasClass('tweetledum-tweet')) {
+            if (twtldDebug) {
+                console.log('getTopItem() activeElement is not one of our tweets.');
+            }
             activeElement = $(activeElement).parent('.tweetledum-tweet');
             if (!$(activeElement).hasClass('tweetledum-tweet')) {
+                if (twtldDebug) {
+                    console.log('getTopItem() activeElement does not have a parent that is one of our tweets.');
+                }
                 activeElement = $('.tweetledum-tweet').first();
             }
         }
@@ -136,16 +201,26 @@
         if (event.keyCode == 78) {
             // Pressing "n" will bring active tweet to top.
             event.preventDefault();
-            $('.active')[0].scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            if ($('.active').length) {
+                if (twtldDebug) {
+                    console.log('keydown("n"): Scrolling to active tweet (' + $('.active').first().attr('data-id') + ').');
+                }
+                $('.active')[0].scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start'
+                });
+            } else {
+              if (twtldDebug) {
+                console.log('keydown("n"): No active tweet found.');
+              }
+            }
             return;
         }
 
         getTopItem();
         activeItem = $('.active');
         if (event.keyCode == 75) {
+            // Pressing "k" will scroll to previous item.
             event.preventDefault();
             var prev = activeItem.prev();
             markActive(prev);
@@ -158,6 +233,7 @@
                 block: 'start'
             });
         } else if (event.keyCode == 74) {
+          // Pressing "j" will scroll to next item.
             event.preventDefault();
             var next = activeItem.next();
             markActive(next);
@@ -171,7 +247,7 @@
                 block: 'start'
             });
         } else if (event.keyCode == 86) {
-            // Pressing "v" will open tweet.
+            // Pressing "v" will open url.
             event.preventDefault();
             var url = activeItem.attr('data-url');
             window.open(url, '_blank');
