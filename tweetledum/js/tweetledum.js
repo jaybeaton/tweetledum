@@ -5,6 +5,7 @@ var twtldUsername = '';
 
     var numToKeep = 30;
     var noNewTweets = false;
+    var lastTweetID = '';
 
     if (window.location.hash == '#debug') {
         twtldDebug = true;
@@ -130,6 +131,9 @@ var twtldUsername = '';
         }
         $(tweet).addClass('active');
         var id = $(tweet).prev().attr('data-id');
+        if (id) {
+            lastTweetID = id;
+        }
         if (typeof id === 'undefined') {
             // No previous tweet.
             id = 0;
@@ -185,7 +189,14 @@ var twtldUsername = '';
                 if (twtldDebug) {
                     console.log('getTopItem() activeElement does not have a parent that is one of our tweets.');
                 }
-                activeElement = $('.tweetledum-tweet').first();
+                if (lastTweetID) {
+                    if (twtldDebug) {
+                        console.log('getTopItem() Will use last active tweet.');
+                    }
+                    activeElement = $('#tweetledum-' + lastTweetID);
+                } else {
+                    activeElement = $('.tweetledum-tweet').first();
+                }
             }
         }
         markActive(activeElement);
