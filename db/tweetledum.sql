@@ -8,5 +8,6 @@ CREATE TABLE `tweetledum_tweets` (
   `timestamp` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `read` (`read`),
-  KEY `user` (`user`)
+  KEY `user` (`user`),
+  KEY `tweeter` (`tweeter`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

@@ -16,10 +16,6 @@ var twtldUsername = '';
       }
     }
 
-    console.log('window.location.hash:' + window.location.hash);
-    console.log('twtldDebug:' + twtldDebug);
-
-
     var callAjax = function (url, callback) {
         var xmlhttp;
         xmlhttp = new XMLHttpRequest();
@@ -60,6 +56,9 @@ var twtldUsername = '';
         }
 
         var url = 'ajax.php?id=' + lastID + '&t=' + Date.now();
+        if (twtldUsername) {
+            url += '&user=' + encodeURI(twtldUsername);
+        }
 
         if (twtldDebug) {
             console.log('processLoadMoreButton() Will make Ajax call to url: ' + url);
@@ -145,6 +144,9 @@ var twtldUsername = '';
             console.log('markActive() Mark previous tweet read, id (' + id + ').');
         }
         var url = 'mark-read.php?id=' + id;
+        if (twtldUsername) {
+            url += '&user=' + encodeURI(twtldUsername);
+        }
         callAjax(url, function(content) {
             var results = JSON.parse(content);
             if (results['unread']) {

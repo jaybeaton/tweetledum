@@ -15,6 +15,7 @@ if($db->connect_errno > 0){
 }
 
 $id = (!empty($_GET['id'])) ? $_GET['id'] : '';
+$user = (!empty($_GET['user'])) ? $_GET['user'] : '';
 
 $success = 0;
 
@@ -33,6 +34,10 @@ if ($id) {
 $sql = "SELECT COUNT(id) as num_unread 
   FROM tweetledum_tweets 
   WHERE `read` = 0 ";
+if ($user) {
+  $sql .= "AND tweeter = '" . $db->real_escape_string($user) . "' ";
+}
+
 $num_unread = $db->query($sql)->fetch_object()->num_unread;
 
 $db->close();

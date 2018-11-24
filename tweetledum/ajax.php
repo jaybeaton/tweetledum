@@ -50,17 +50,26 @@ if($db->connect_errno > 0){
 }
 
 $id = (!empty($_GET['id'])) ? $_GET['id'] : '';
+$user = (!empty($_GET['user'])) ? $_GET['user'] : '';
 
 $sql = "SELECT id, `tweeter`, body, `data`, `timestamp`
   FROM tweetledum_tweets
   WHERE id > ?
-  AND `read` = 0
-  ORDER BY id ASC
+  AND `read` = 0 ";
+if ($user) {
+  $sql .= "AND tweeter = ? ";
+}
+
+$sql .= " ORDER BY id ASC
   LIMIT {$num_per_page} ";
 $query = $db->prepare($sql);
 
-
-$query->bind_param('s', $id);
+if ($user) {
+  $query->bind_param('ss', $id, $user);
+}
+else {
+  $query->bind_param('s', $id);
+}
 $query->execute();
 $result = $query->get_result();
 
