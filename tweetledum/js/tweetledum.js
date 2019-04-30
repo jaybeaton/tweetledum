@@ -7,6 +7,9 @@ var twtldUsername = '';
     var noNewTweets = false;
     var lastTweetID = '';
 
+    var checkingLoadMore = false;
+    var isLoading = false;
+
     if (window.location.hash == '#debug') {
         twtldDebug = true;
     } else if (window.location.hash) {
@@ -18,8 +21,13 @@ var twtldUsername = '';
 
     var callAjax = function (url, callback) {
         var xmlhttp;
+        if (isLoading) {
+            return;
+        }
+        isLoading = true;
         xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
+            isLoading = false;
             if (xmlhttp.readyState == xmlhttp.DONE) {
                 if (xmlhttp.status === 200) {
                     callback(xmlhttp.responseText);
@@ -274,8 +282,6 @@ var twtldUsername = '';
             location.reload();
         }
     });
-
-    var checkingLoadMore = false;
 
     $(window).scroll(function(){
         if (!checkingLoadMore) {
