@@ -21,13 +21,8 @@ var twtldUsername = '';
 
     var callAjax = function (url, callback) {
         var xmlhttp;
-        if (isLoading) {
-            return;
-        }
-        isLoading = true;
         xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
-            isLoading = false;
             if (xmlhttp.readyState == xmlhttp.DONE) {
                 if (xmlhttp.status === 200) {
                     callback(xmlhttp.responseText);
@@ -48,6 +43,14 @@ var twtldUsername = '';
         if (twtldDebug) {
             console.log('processLoadMoreButton() Called.');
         }
+
+        if (isLoading) {
+            if (twtldDebug) {
+                console.log('Already loading more content.');
+            }
+            return;
+        }
+        isLoading = true;
 
         $('.loading-message').remove();
         var message = '<div class="loading-message" role="alert">Loading...</div>';
@@ -73,6 +76,7 @@ var twtldUsername = '';
         }
         callAjax(url, function(content) {
 
+            isLoading = false;
             if (!content) {
                 if (twtldDebug) {
                     console.log('processLoadMoreButton() No new content found.');
