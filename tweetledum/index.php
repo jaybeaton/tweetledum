@@ -83,12 +83,14 @@ if (!$error) {
             left: 0;
             width: 120px;
             padding: 20px;
+            height: 100%;
         }
         .info-column div {
             float: left;
             clear: both;
             width: 100px;
             padding-bottom: 20px;
+            position: relative;
         }
         .main {
             float: left;
@@ -157,6 +159,22 @@ if (!$error) {
             width: 475px;
             margin-left: 25px;
         }
+        .info-column .tweetledum-controls {
+            position: absolute;
+            bottom: 0;
+            height: 375px;
+        }
+        .info-column .tweetledum-controls button {
+            display: block;
+            clear: both;
+            padding: 20px 0 20px 0;
+            margin: 35px 0 0 0;
+            font-size: 20px;
+            width: 45px;
+            background-color: #ccc;
+            border: 1px solid #999;
+            border-radius: 0.25rem;
+        }
     </style>
 </head>
 <body>
@@ -169,6 +187,11 @@ if (!$error) {
 ?>
     <div>
         <span id="unread-count">0</span>
+    </div>
+    <div class="tweetledum-controls">
+        <button class="tweetledum-controls-up" data-key="k" value="^">⬆️</button>
+        <button class="tweetledum-controls-open" value=";">👓</button>
+        <button class="tweetledum-controls-down" value="j">⬇️</button>
     </div>
 </div>
 <div class="main">
