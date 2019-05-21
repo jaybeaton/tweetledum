@@ -224,9 +224,18 @@ var twtldUsername = '';
     processLoadMoreButton(this);
   }).addClass('load-processed').click();
 
-  $(document).keydown(function (event) {
+  $('.tweetledum-controls button').click(function (event) {
+    var keyCode = $(this).attr('data-keycode');
+    processKeyPress(event, keyCode);
+  });
 
-    if (event.keyCode == 78) {
+  var processKeyPress = function (event, keyCode) {
+
+    if (!keyCode) {
+      keyCode = event.keyCode;
+    }
+
+    if (keyCode == 78) {
       // Pressing "n" will bring active tweet to top.
       event.preventDefault();
       if ($('.active').length) {
@@ -248,7 +257,7 @@ var twtldUsername = '';
 
     getTopItem();
     activeItem = $('.active');
-    if (event.keyCode == 75) {
+    if (keyCode == 75) {
       // Pressing "k" will scroll to previous item.
       event.preventDefault();
       var prev = activeItem.prev();
@@ -262,7 +271,7 @@ var twtldUsername = '';
         block: 'start'
       });
     }
-    else if (event.keyCode == 74) {
+    else if (keyCode == 74) {
       // Pressing "j" will scroll to next item.
       event.preventDefault();
       var next = activeItem.next();
@@ -277,22 +286,26 @@ var twtldUsername = '';
         block: 'start'
       });
     }
-    else if (event.keyCode == 86) {
+    else if (keyCode == 86) {
       // Pressing "v" will open url.
       event.preventDefault();
       var url = activeItem.attr('data-url');
       window.open(url, '_blank');
     }
-    else if (event.keyCode == 84) {
+    else if (keyCode == 84) {
       // Pressing "t" will open tweet.
       event.preventDefault();
       var url = activeItem.attr('data-tweet');
       window.open(url, '_blank');
     }
-    else if (event.keyCode == 82) {
+    else if (keyCode == 82) {
       // Pressing "r" will reload.
       location.reload();
     }
+  };
+
+  $(document).keydown(function (event) {
+    processKeyPress(event);
   });
 
   $(window).scroll(function () {
@@ -312,5 +325,16 @@ var twtldUsername = '';
       button.click();
     }
   };
+
+  var isTouchDevice = function () {
+    // 1. Works on most browsers.
+    // 2. Works on IE10/11 and Surface.
+    return 'ontouchstart' in window
+    || navigator.maxTouchPoints;
+  };
+
+  if (isTouchDevice()) {
+    $('.tweetledum-controls').show();
+  }
 
 })(jQuery);

@@ -189,9 +189,9 @@ if (!$error) {
         <span id="unread-count">0</span>
     </div>
     <div class="tweetledum-controls" style="display: none;">
-        <button class="tweetledum-controls-up" data-key="k" value="^">⬆️</button>
-        <button class="tweetledum-controls-open" value=";">👓</button>
-        <button class="tweetledum-controls-down" value="j">⬇️</button>
+        <button class="tweetledum-controls-up" data-keycode="75">⬆️</button>
+        <button class="tweetledum-controls-open" data-keycode="86">👓</button>
+        <button class="tweetledum-controls-down" data-keycode="74">⬇️</button>
     </div>
 </div>
 <div class="main">
