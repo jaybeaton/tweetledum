@@ -162,13 +162,13 @@ if (!$error) {
         .info-column .tweetledum-controls {
             position: absolute;
             bottom: 0;
-            height: 375px;
+            height: 200px;
         }
         .info-column .tweetledum-controls button {
             display: block;
             clear: both;
-            padding: 20px 0 20px 0;
-            margin: 35px 0 0 0;
+            padding: 10px 0 10px 0;
+            margin: 10px 0 0 0;
             font-size: 20px;
             width: 45px;
             background-color: #ccc;
@@ -188,7 +188,7 @@ if (!$error) {
     <div>
         <span id="unread-count">0</span>
     </div>
-    <div class="tweetledum-controls">
+    <div class="tweetledum-controls" style="display: none;">
         <button class="tweetledum-controls-up" data-key="k" value="^">⬆️</button>
         <button class="tweetledum-controls-open" value=";">👓</button>
         <button class="tweetledum-controls-down" value="j">⬇️</button>
