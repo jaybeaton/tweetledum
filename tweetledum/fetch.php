@@ -128,6 +128,8 @@ $tz = new DateTimeZone('America/New_York');
 $num = 0;
 foreach ($homeTimelineObj as $item) {
 
+  $item['text'] = $item['full_text'] ?? $item['text'];
+
   $quoted = [];
   if (!empty($item['quoted_status'])) {
     $dateObj = new DateTime('@' . strtotime($item['quoted_status']['created_at']), $utc);
@@ -147,7 +149,7 @@ foreach ($homeTimelineObj as $item) {
       'id' => $item['retweeted_status']['quoted_status']['id'],
       'name' => $item['retweeted_status']['quoted_status']['user']['name'],
       'screen_name' => $item['retweeted_status']['quoted_status']['user']['screen_name'],
-      'body' => $item['retweeted_status']['quoted_status']['text'],
+      'body' => $item['retweeted_status']['quoted_status']['full_text'] ?? $item['retweeted_status']['quoted_status']['text'],
       'timestamp' => $dateObj->format('U'),
     ];
   }
