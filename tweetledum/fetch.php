@@ -98,6 +98,7 @@ $params = array(
   'include_entities' => true,
   'count' => $count,
   'exclude_replies' => $exclude_replies,
+  'tweet_mode' => 'extended',
 );
 if ($max_id) {
   $params['since_id'] = $max_id;
@@ -151,11 +152,22 @@ foreach ($homeTimelineObj as $item) {
     ];
   }
 
+  $link_url = '';
+  $link_url_expanded = '';
+  if (!empty($item['entities']['urls'][0]['url'])) {
+    $link_url = $item['entities']['urls'][0]['url'];
+    $link_url_expanded = $item['entities']['urls'][0]['expanded_url'] ?? '';
+  }
+  elseif (!empty($item['retweeted_status']['entities']['urls']['0']['url'])) {
+    $link_url = $item['retweeted_status']['entities']['urls']['0']['url'];
+    $link_url_expanded = $item['retweeted_status']['entities']['urls']['0']['expanded_url'] ?? '';
+  }
+
   $data_field = array(
     'user_name' => $item['user']['name'],
     'retweeted' => (!empty($item['retweeted_status'])),
-    'link_url' => (!empty($item['entities']['urls'][0]['url'])) ? $item['entities']['urls'][0]['url'] : '',
-    'link_url_expanded' => (!empty($item['entities']['urls'][0]['expanded_url'])) ? $item['entities']['urls'][0]['expanded_url'] : '',
+    'link_url' => $link_url,
+    'link_url_expanded' => $link_url_expanded,
     'quoted' => $quoted,
   );
 
