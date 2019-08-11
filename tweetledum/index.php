@@ -163,6 +163,7 @@ if (!$error) {
             position: absolute;
             bottom: 0;
             height: 200px;
+            margin: 0 0 20px 0;
         }
         .info-column .tweetledum-controls button {
             display: block;
