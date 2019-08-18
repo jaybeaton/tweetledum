@@ -100,7 +100,8 @@ while ($row = $result->fetch_assoc()) {
   elseif (!empty($row['data']['link_url'])) {
     $link_url = $row['data']['link_url'];
   }
-  if ($link_url && !preg_match('~^https?://twitter.com/~', $link_url)) {
+
+  if ($link_url && (!preg_match('~^https?://twitter.com/~', $link_url) || !empty($row['data']['retweeted']))) {
     $display_url = preg_replace('~^https?://~', '', $link_url);
     if (strlen($display_url) > $max_display_link_len) {
       $display_url = htmlentities(substr($display_url, 0, ($max_display_link_len - 1))) . '&hellip;';

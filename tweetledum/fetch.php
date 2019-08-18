@@ -164,6 +164,11 @@ foreach ($homeTimelineObj as $item) {
     $link_url = $item['retweeted_status']['entities']['urls']['0']['url'];
     $link_url_expanded = $item['retweeted_status']['entities']['urls']['0']['expanded_url'] ?? '';
   }
+  elseif (!empty($item['retweeted_status']['id']) && !empty($item['retweeted_status']['user']['screen_name'])) {
+    $retweeted_tweet_url = 'https://twitter.com/' . $item['retweeted_status']['user']['screen_name'] . '/status/' . $item['retweeted_status']['id'];
+    $link_url = $retweeted_tweet_url;
+    $link_url_expanded = $retweeted_tweet_url;
+  }
 
   $data_field = array(
     'user_name' => $item['user']['name'],
