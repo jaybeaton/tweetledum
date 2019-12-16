@@ -104,6 +104,9 @@ if (!$error) {
             border-radius: 5px;
             padding: 5px;
         }
+        #unread-count.loading {
+            background-color: #fff3cd;
+        }
         .tweetledum-feed {
             margin: 20px 0;
             width: 545px;

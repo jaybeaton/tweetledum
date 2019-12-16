@@ -58,6 +58,7 @@ let twtldUsername = '';
     $('#load-more').before(message);
 
     $(button).addClass('loading');
+    $('#unread-count').addClass('loading');
 
     let lastID = $('.tweetledum-tweet').last().attr('data-id');
     if (typeof lastID === 'undefined') {
@@ -90,6 +91,7 @@ let twtldUsername = '';
           });
         }, 3000);
         $(button).removeClass('loading');
+        $('#unread-count').removeClass('loading');
         return;
       }
 
@@ -127,6 +129,7 @@ let twtldUsername = '';
       }
 
       $(button).removeClass('loading');
+      $('#unread-count').removeClass('loading');
 
       if ($('.active').length === 0) {
         markActive($('.tweetledum-tweet').first());
@@ -321,6 +324,7 @@ let twtldUsername = '';
     let button = $('#load-more').not('.loading');
     if (button.visible(true) && !noNewTweets) {
       button.addClass('loading');
+      $('#unread-count').addClass('loading');
       button.click();
     }
   };
