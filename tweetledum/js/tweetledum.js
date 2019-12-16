@@ -1,16 +1,16 @@
-var twtldDebug = false;
-var twtldUsername = '';
+let twtldDebug = false;
+let twtldUsername = '';
 
 (function ($) {
 
-  var numToKeep = 30;
-  var noNewTweets = false;
-  var lastTweetID = '';
+  let numToKeep = 30;
+  let noNewTweets = false;
+  let lastTweetID = '';
 
-  var checkingLoadMore = false;
-  var isLoading = false;
+  let checkingLoadMore = false;
+  let isLoading = false;
 
-  if (window.location.hash == '#debug') {
+  if (window.location.hash === '#debug') {
     twtldDebug = true;
   }
   else if (window.location.hash) {
@@ -20,16 +20,15 @@ var twtldUsername = '';
     }
   }
 
-  var callAjax = function (url, callback) {
-    var xmlhttp;
-    xmlhttp = new XMLHttpRequest();
+  let callAjax = function (url, callback) {
+    let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
-      if (xmlhttp.readyState == xmlhttp.DONE) {
+      if (xmlhttp.readyState === xmlhttp.DONE) {
         if (xmlhttp.status === 200) {
           callback(xmlhttp.responseText);
         }
         else {
-          callback(embed_settings.error_msg);
+          callback('Error reading tweets.');
         }
       }
     };
@@ -40,7 +39,7 @@ var twtldUsername = '';
     xmlhttp.send();
   };
 
-  var processLoadMoreButton = function (button) {
+  let processLoadMoreButton = function (button) {
 
     if (twtldDebug) {
       console.log('processLoadMoreButton() Called.');
@@ -55,12 +54,12 @@ var twtldUsername = '';
     isLoading = true;
 
     $('.loading-message').remove();
-    var message = '<div class="loading-message" role="alert">Loading...</div>';
+    let message = '<div class="loading-message" role="alert">Loading...</div>';
     $('#load-more').before(message);
 
     $(button).addClass('loading');
 
-    var lastID = $('.tweetledum-tweet').last().attr('data-id');
+    let lastID = $('.tweetledum-tweet').last().attr('data-id');
     if (typeof lastID === 'undefined') {
       if (twtldDebug) {
         console.log('processLoadMoreButton() No last tweet found.');
@@ -68,7 +67,7 @@ var twtldUsername = '';
       lastID = 0;
     }
 
-    var url = 'ajax.php?id=' + lastID + '&t=' + Date.now();
+    let url = 'ajax.php?id=' + lastID + '&t=' + Date.now();
     if (twtldUsername) {
       url += '&user=' + encodeURI(twtldUsername);
     }
@@ -108,17 +107,17 @@ var twtldUsername = '';
       $('.tweetledum-feed').append(content);
       $.getScript('https://platform.twitter.com/widgets.js');
 
-      var tweets = $('.tweetledum-tweet');
-      var totalTweets = tweets.length;
-      var existing = tweets.not('.tweetledum-new');
+      let tweets = $('.tweetledum-tweet');
+      let totalTweets = tweets.length;
+      let existing = tweets.not('.tweetledum-new');
       $('.tweetledum-tweet.tweetledum-new').click(function () {
         $('.active').removeClass('active');
         markActive($(this));
       }).removeClass('tweetledum-new');
 
       if (totalTweets > numToKeep) {
-        var n = 0;
-        var numToDelete = totalTweets - numToKeep;
+        let n = 0;
+        let numToDelete = totalTweets - numToKeep;
         existing.each(function () {
           if (n < numToDelete) {
             $(this).remove();
@@ -137,13 +136,13 @@ var twtldUsername = '';
 
   };
 
-  var markActive = function (tweet) {
+  let markActive = function (tweet) {
     if (twtldDebug) {
       console.log('markActive() called on tweet:');
       console.log(tweet);
     }
     $(tweet).addClass('active');
-    var id = $(tweet).prev().attr('data-id');
+    let id = $(tweet).prev().attr('data-id');
     if (id) {
       lastTweetID = id;
     }
@@ -157,14 +156,14 @@ var twtldUsername = '';
     if (twtldDebug) {
       console.log('markActive() Mark previous tweet read, id (' + id + ').');
     }
-    var url = 'mark-read.php?id=' + id;
+    let url = 'mark-read.php?id=' + id;
     if (twtldUsername) {
       url += '&user=' + encodeURI(twtldUsername);
     }
     callAjax(url, function (content) {
-      var results = JSON.parse(content);
+      let results = JSON.parse(content);
       if (results['unread']) {
-        var unread = parseInt(results['unread']);
+        let unread = parseInt(results['unread']);
         unread--;
         if (unread < 0) {
           unread = 0;
@@ -177,12 +176,12 @@ var twtldUsername = '';
     });
   };
 
-  var getTopItem = function () {
+  let getTopItem = function () {
 
     if (twtldDebug) {
       console.log('getTopItem() Called.');
     }
-    var active = $('.active');
+    let active = $('.active');
     if (active.length > 0 && active.visible(true)) {
       if (twtldDebug) {
         console.log('getTopItem() Active item exists and is visible.');
@@ -191,7 +190,7 @@ var twtldUsername = '';
     }
 
     $('.tweetledum-tweet').removeClass('active');
-    var activeElement = document.elementFromPoint(200, 75);
+    let activeElement = document.elementFromPoint(200, 75);
     if (twtldDebug) {
       console.log('getTopItem() activeElement is:');
       console.log(activeElement);
@@ -225,17 +224,17 @@ var twtldUsername = '';
   }).addClass('load-processed').click();
 
   $('.tweetledum-controls button').click(function (event) {
-    var keyCode = $(this).attr('data-keycode');
+    let keyCode = $(this).attr('data-keycode');
     processKeyPress(event, keyCode);
   });
 
-  var processKeyPress = function (event, keyCode) {
+  let processKeyPress = function (event, keyCode) {
 
     if (!keyCode) {
       keyCode = event.keyCode;
     }
 
-    if (keyCode == 78) {
+    if (keyCode === 78) {
       // Pressing "n" will bring active tweet to top.
       event.preventDefault();
       if ($('.active').length) {
@@ -256,11 +255,11 @@ var twtldUsername = '';
     }
 
     getTopItem();
-    activeItem = $('.active');
-    if (keyCode == 75) {
+    let activeItem = $('.active');
+    if (keyCode === 75) {
       // Pressing "k" will scroll to previous item.
       event.preventDefault();
-      var prev = activeItem.prev();
+      let prev = activeItem.prev();
       markActive(prev);
       if (prev.length === 0) {
         return;
@@ -271,10 +270,10 @@ var twtldUsername = '';
         block: 'start'
       });
     }
-    else if (keyCode == 74) {
+    else if (keyCode === 74) {
       // Pressing "j" will scroll to next item.
       event.preventDefault();
-      var next = activeItem.next();
+      let next = activeItem.next();
       markActive(next);
       if (next.length === 0) {
         $('#load-more').click();
@@ -286,19 +285,19 @@ var twtldUsername = '';
         block: 'start'
       });
     }
-    else if (keyCode == 86) {
+    else if (keyCode === 86) {
       // Pressing "v" will open url.
       event.preventDefault();
-      var url = activeItem.attr('data-url');
+      let url = activeItem.attr('data-url');
       window.open(url, '_blank');
     }
-    else if (keyCode == 84) {
+    else if (keyCode === 84) {
       // Pressing "t" will open tweet.
       event.preventDefault();
-      var url = activeItem.attr('data-tweet');
+      let url = activeItem.attr('data-tweet');
       window.open(url, '_blank');
     }
-    else if (keyCode == 82) {
+    else if (keyCode === 82) {
       // Pressing "r" will reload.
       location.reload();
     }
@@ -318,15 +317,15 @@ var twtldUsername = '';
     }
   });
 
-  var checkLoadMore = function () {
-    var button = $('#load-more').not('.loading');
+  let checkLoadMore = function () {
+    let button = $('#load-more').not('.loading');
     if (button.visible(true) && !noNewTweets) {
       button.addClass('loading');
       button.click();
     }
   };
 
-  var isTouchDevice = function () {
+  let isTouchDevice = function () {
     // 1. Works on most browsers.
     // 2. Works on IE10/11 and Surface.
     return 'ontouchstart' in window
