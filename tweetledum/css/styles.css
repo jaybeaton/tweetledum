@@ -127,7 +127,6 @@ body {
   margin: 20px 0 0 60px;
   width: 505px;
 }
-
 .bulk-mark-read td.checkbox {
 }
 .bulk-mark-read td.tweeter {
@@ -147,4 +146,15 @@ body {
   border-color: #a94442;
   color: #a94442;
   background-color: #f2dede;
+}
+div.total-selected-label {
+  padding-bottom: 0;
+  font-weight: bold;
+}
+#total-selected {
+  font-size: 1.2em;
+  color: #666;
+  background-color: #bbb;
+  border-radius: 5px;
+  padding: 5px;
 }
