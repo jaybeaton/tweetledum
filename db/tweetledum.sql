@@ -11,3 +11,11 @@ CREATE TABLE `tweetledum_tweets` (
   KEY `user` (`user`),
   KEY `tweeter` (`tweeter`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `tweetledum_lists` (
+  `user` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `data` text COLLATE utf8_unicode_ci,
+  `timestamp` int(11) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user`, `name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
