@@ -49,7 +49,7 @@ if (!$error) {
   $user_url = 'https://twitter.com/' . $data['screen_name'];
 
   if (!empty($data['profile_image_url_https'])) {
-    $profile_img = '<div class="profile-image"><a target="_blank" href="' . $user_url . '">'
+    $profile_img = '<div class="profile-image"><a href="./">'
       . '<img src="' . $data['profile_image_url_https'] . '" />'
       . '</a></div>';
   }
