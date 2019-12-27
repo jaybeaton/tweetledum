@@ -147,11 +147,11 @@ body {
   color: #a94442;
   background-color: #f2dede;
 }
-div.total-selected-label {
+div.count-label {
   padding-bottom: 0;
   font-weight: bold;
 }
-#total-selected {
+.count-value {
   font-size: 1.2em;
   color: #666;
   background-color: #bbb;

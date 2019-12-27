@@ -236,10 +236,13 @@ function get_messages($messages, $class) {
   }
   ?>
   <div>
-    <span id="unread-count"><?php print $num_unread; ?></span>
+    <div class="count-label">Unread</div> <span id="unread-count"><?php print $num_unread; ?></span>
   </div>
   <div>
-    <div class="total-selected-label">Selected</div> <span id="total-selected">0</span>
+    <div class="count-label">Selected</div> <span class="count-value" id="total-selected">0</span>
+  </div>
+  <div>
+    <div class="count-label">Remaining</div> <span class="count-value" id="total-remaining">0</span>
   </div>
 </div>
 <div class="main">

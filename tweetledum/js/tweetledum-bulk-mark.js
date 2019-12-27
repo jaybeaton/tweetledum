@@ -22,6 +22,8 @@
       count += parseInt($(this).attr('data-count'));
     });
     $('#total-selected').html(count);
+    let unread = $('#unread-count').html();
+    $('#total-remaining').html(unread - count);
   };
 
   count_selected();
