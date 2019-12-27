@@ -71,7 +71,7 @@ if($db->connect_errno > 0){
 $errors = [];
 $status_messages = [];
 $current_list = $_GET['list'] ?? NULL;
-$lists = $_COOKIE['lists'] ?? [];
+$lists = [];
 $tweeters = $_POST['tweeter'] ?? [];
 $tweeters = array_filter($tweeters);
 $mark_read = !empty($_POST['mark-read']);
@@ -181,6 +181,21 @@ while ($row = $result->fetch_assoc()) {
   $counts[$row['tweeter']] = $row;
 }
 
+// Get all lists.
+$sql = "SELECT name
+  FROM tweetledum_lists
+  WHERE user = ?
+  ORDER BY name ";
+$query = $db->prepare($sql);
+$query->bind_param('s', $screen_name);
+$query->execute();
+$result = $query->get_result();
+
+$first_class = 'first';
+while ($row = $result->fetch_assoc()) {
+  $lists[] = $row['name'];
+} // Loop thru lists.
+
 
 $sql = "SELECT COUNT(id) as num_unread
   FROM tweetledum_tweets
@@ -265,6 +280,25 @@ function get_messages($messages, $class) {
         </div>
       </div>
     </form>
+
+
+    <div class="lists-wrapper">
+      <h3>Lists</h3>
+      <div class="lists">
+        <?php if ($lists) { ?>
+          <ul>
+            <?php foreach ($lists as $list) { ?>
+              <li><a href="bulk.php?list=<?php print urlencode($list); ?>"><?php print htmlentities($list); ?></a></li>
+            <?php } ?>
+          </ul>
+        <?php } else { ?>
+          <div class="no-lists">
+            You have no lists.
+          </div>
+        <?php } ?>
+      </div>
+    </div>
+
   </div>
 </div>
 
