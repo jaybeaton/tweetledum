@@ -85,8 +85,8 @@ if($db->connect_errno > 0){
   die('Unable to connect to database [' . $db->connect_error . ']');
 }
 
-$sql = "SELECT MAX(id) as max_id 
-  FROM tweetledum_tweets 
+$sql = "SELECT MAX(id) as max_id
+  FROM tweetledum_tweets
   WHERE `read` = 0 ";
 $max_id = $db->query($sql)->fetch_object()->max_id;
 
@@ -138,7 +138,7 @@ foreach ($homeTimelineObj as $item) {
       'id' => $item['quoted_status']['id'],
       'name' => $item['quoted_status']['user']['name'],
       'screen_name' => $item['quoted_status']['user']['screen_name'],
-      'body' => $item['quoted_status']['text'],
+      'body' => $item['quoted_status']['text'] ?? NULL,
       'timestamp' => $dateObj->format('U'),
     ];
   }
