@@ -252,9 +252,9 @@ function get_messages($messages, $class) {
     <form id="bulk-mark-read" action="bulk.php" method="post">
       <table class="bulk-mark-read">
         <tr>
-          <td>&nbsp;</td>
-          <td>Tweeter</td>
-          <td>Count</td>
+          <th><input type="checkbox" id="bulk-toggle" /></th>
+          <th>Tweeter</th>
+          <th>Count</th>
         </tr>
 <?php
         foreach ($counts as $tweeter => $row) {
@@ -301,6 +301,9 @@ function get_messages($messages, $class) {
 
   </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+<script src="js/tweetledum-bulk-mark.js"></script>
 
 </body>
 </html>
