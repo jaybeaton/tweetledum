@@ -268,7 +268,7 @@ function get_messages($messages, $class) {
           $id = 'tweeter__' . $tweeter;
           print '<tr>';
           print '<td class="checkbox"><input type="checkbox" name="tweeter[]" id="' . htmlentities($id) . '" value="' . htmlentities($tweeter) . '" ' . $checked . ' data-count=' . $row['num_tweets'] . '" /></td>';
-          print '<td class="tweeter"><label for="' . htmlentities($id) . '">' . htmlentities($tweeter) . '</label></td>';
+          print '<td class="tweeter"><label for="' . htmlentities($id) . '">' . htmlentities($tweeter) . ' <a href="./#' . htmlentities($tweeter) . '">(tweets)</a></label></td>';
           print '<td class="count">' . $row['num_tweets'] . '</td>';
           print "</tr>\n";
         }
