@@ -164,22 +164,32 @@ if ($list_name) {
   }
 }
 
-$sql = "SELECT DISTINCT t.tweeter, IFNULL(counts.num_tweets, 0) AS num_tweets
+// Get all tweeters first.
+$sql = "SELECT DISTINCT t.tweeter, 0 AS num_tweets
   FROM tweetledum_tweets t
-  LEFT JOIN (
-    SELECT tc.tweeter, COUNT(tc.id) AS num_tweets
-    FROM tweetledum_tweets AS tc
-    WHERE tc.`read` = 0
-    GROUP BY tc.tweeter ) AS counts ON t.tweeter = counts.tweeter
-  WHERE 1=1
-  ORDER BY counts.num_tweets DESC, t.tweeter ";
+  ORDER BY t.tweeter ";
+$result = $db->query($sql);
+$all_tweeters = [];
+while ($row = $result->fetch_assoc()) {
+  $all_tweeters[$row['tweeter']] = $row;
+}
+
+// Then, get all with tweets.
+$sql = "SELECT t.tweeter, COUNT(t.tweeter) AS num_tweets
+  FROM tweetledum_tweets t
+  WHERE t.`read` = 0
+  GROUP BY t.tweeter
+  ORDER BY num_tweets DESC, t.tweeter ";
 $result = $db->query($sql);
 
 $counts = [];
 while ($row = $result->fetch_assoc()) {
-
   $counts[$row['tweeter']] = $row;
+  // Remove from "all tweeters" list.
+  unset($all_tweeters[$row['tweeter']]);
 }
+// Add tweeters without tweets to end.
+$counts += $all_tweeters;
 
 // Get all lists.
 $sql = "SELECT name
