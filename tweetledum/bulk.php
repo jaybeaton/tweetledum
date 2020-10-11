@@ -138,6 +138,7 @@ elseif ($save_list) {
     $done = $query->execute();
     if ($done) {
       $_SESSION['status_messages'][] = 'List saved.';
+      $current_url .= '?list=' . urlencode($list_name);
       $redirect = TRUE;
     }
     else {
@@ -150,10 +151,6 @@ elseif ($save_list) {
 
 if (!$list_name && $list) {
   $list_name = $list;
-}
-
-if ($list_name) {
-  $current_url .= '?list=' . urlencode($list_name);
 }
 
 if ($redirect) {
@@ -302,7 +299,7 @@ function get_messages($messages, $class) {
       print get_messages($status_messages, 'status');
     }
     ?>
-    <form id="bulk-mark-read" action="<?php print $current_url; ?>>" method="post">
+    <form id="bulk-mark-read" action="<?php print $current_url; ?>" method="post">
       <table class="bulk-mark-read">
         <tr>
           <th><input type="checkbox" id="bulk-toggle" /></th>
