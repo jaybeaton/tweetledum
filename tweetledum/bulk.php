@@ -273,6 +273,24 @@ function get_messages($messages, $class) {
   <div>
     <div class="count-label">Remaining</div> <span class="count-value" id="total-remaining">0</span>
   </div>
+
+  <div class="lists-wrapper">
+    <h3>Lists</h3>
+    <div class="lists">
+      <?php if ($lists) { ?>
+        <ul>
+          <?php foreach ($lists as $list) { ?>
+            <li><a href="bulk.php?list=<?php print urlencode($list); ?>"><?php print htmlentities($list); ?></a></li>
+          <?php } ?>
+        </ul>
+      <?php } else { ?>
+        <div class="no-lists">
+          You have no lists.
+        </div>
+      <?php } ?>
+    </div>
+  </div>
+
 </div>
 <div class="main">
   <div class="tweetledum-bulk">
@@ -307,32 +325,16 @@ function get_messages($messages, $class) {
         <div>
           <input class="bulk-save bulk-save--mark" type="submit" name="mark-read" value="Mark read" />
         </div>
-        <div>
-          <input class="bulk-input bulk-input--list" type="textfield" name="list-name" maxlength="255" value="<?php print htmlentities($list_name); ?>">
-        </div>
-        <div>
-          <input class="bulk-save bulk-save--list" type="submit" name="save-list" value="Save list" />
+        <div class="list-fields">
+          <div>
+            <input class="bulk-input bulk-input--list" type="textfield" name="list-name" maxlength="255" value="<?php print htmlentities($list_name); ?>">
+          </div>
+          <div>
+            <input class="bulk-save bulk-save--list" type="submit" name="save-list" value="Save list" />
+          </div>
         </div>
       </div>
     </form>
-
-
-    <div class="lists-wrapper">
-      <h3>Lists</h3>
-      <div class="lists">
-        <?php if ($lists) { ?>
-          <ul>
-            <?php foreach ($lists as $list) { ?>
-              <li><a href="bulk.php?list=<?php print urlencode($list); ?>"><?php print htmlentities($list); ?></a></li>
-            <?php } ?>
-          </ul>
-        <?php } else { ?>
-          <div class="no-lists">
-            You have no lists.
-          </div>
-        <?php } ?>
-      </div>
-    </div>
 
   </div>
 </div>
