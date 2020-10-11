@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 /*******************************************************************
  *  Includes
  ********************************************************************/
@@ -68,8 +70,14 @@ if($db->connect_errno > 0){
   die('Unable to connect to database [' . $db->connect_error . ']');
 }
 
-$errors = [];
+$current_url = $_SERVER['SCRIPT_NAME'];
+$redirect = FALSE;
 $status_messages = [];
+if (!empty($_SESSION['status_messages'])) {
+  $status_messages = $_SESSION['status_messages'];
+}
+$_SESSION['status_messages'] = [];
+$errors = [];
 $current_list = $_GET['list'] ?? NULL;
 $lists = [];
 $tweeters = $_POST['tweeter'] ?? [];
@@ -104,7 +112,8 @@ if ($mark_read) {
     else {
       $message .= 'from ' . count($tweeters)  . ' tweeters marked read.';
     }
-    $status_messages[] = $message;
+    $_SESSION['status_messages'][] = $message;
+    $redirect = TRUE;
 
     // @todo - Add an "undo" based on an 'updated' timestamp.
 
@@ -128,7 +137,8 @@ elseif ($save_list) {
     $query->bind_param('sssi', $screen_name, $list_name, $list_data, $timestamp);
     $done = $query->execute();
     if ($done) {
-      $status_messages[] = 'List saved.';
+      $_SESSION['status_messages'][] = 'List saved.';
+      $redirect = TRUE;
     }
     else {
       $errors[] = 'List not saved.';
@@ -140,6 +150,16 @@ elseif ($save_list) {
 
 if (!$list_name && $list) {
   $list_name = $list;
+}
+
+if ($list_name) {
+  $current_url .= '?list=' . urlencode($list_name);
+}
+
+if ($redirect) {
+  // Redirect back, if needed, to avoid POST resubmission message.
+  header('Location: ' . $current_url);
+  die();
 }
 
 // Get the list to show.
@@ -218,8 +238,7 @@ function get_messages($messages, $class) {
   if (!$messages) {
     return '';
   }
-  $out = '<div class="messages ' . $class . '">'
-    . '<ul>';
+  $out = '<div class="messages ' . $class . '"><ul>';
   foreach ($messages as $message) {
     $out .= '<li>' . htmlentities($message) . '</li>';
   }
@@ -265,7 +284,7 @@ function get_messages($messages, $class) {
       print get_messages($status_messages, 'status');
     }
     ?>
-    <form id="bulk-mark-read" action="bulk.php" method="post">
+    <form id="bulk-mark-read" action="<?php print $current_url; ?>>" method="post">
       <table class="bulk-mark-read">
         <tr>
           <th><input type="checkbox" id="bulk-toggle" /></th>
