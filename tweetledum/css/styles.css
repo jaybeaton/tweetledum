@@ -96,11 +96,15 @@ body {
   position: relative;
   padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-color: #333;
+  border: 1px solid #333;
   border-radius: 0.25rem;
   color: #fff;
   background-color: #999;
+}
+.loading-message.error {
+  border: 1px solid #f9c9bf;
+  color: #a51b00;
+  background-color: #fcf4f2;
 }
 .tweetledum-quoted {
   width: 475px;

@@ -25,10 +25,10 @@ let twtldUsername = '';
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState === xmlhttp.DONE) {
         if (xmlhttp.status === 200) {
-          callback(xmlhttp.responseText);
+          callback(xmlhttp.responseText, xmlhttp.status);
         }
         else {
-          callback('Error reading tweets.');
+          callback('', xmlhttp.status);
         }
       }
     };
@@ -76,15 +76,25 @@ let twtldUsername = '';
     if (twtldDebug) {
       console.log('processLoadMoreButton() Will make Ajax call to url: ' + url);
     }
-    callAjax(url, function (content) {
+    callAjax(url, function (content, status) {
 
       isLoading = false;
       if (!content) {
         if (twtldDebug) {
-          console.log('processLoadMoreButton() No new content found.');
+          if (status === 200) {
+            console.log('processLoadMoreButton() No new content found.');
+          }
+          else {
+            console.log('processLoadMoreButton() Error reading tweets.');
+          }
         }
         noNewTweets = true;
-        $('.loading-message').text('No new tweets.');
+        if (status === 200) {
+          $('.loading-message').text('No new tweets.');
+        }
+        else {
+          $('.loading-message').addClass('error').text('Error reading tweets.');
+        }
         setTimeout(function () {
           $('.loading-message').fadeOut(500, function () {
             $(this).remove();
@@ -163,7 +173,10 @@ let twtldUsername = '';
     if (twtldUsername) {
       url += '&user=' + encodeURI(twtldUsername);
     }
-    callAjax(url, function (content) {
+    callAjax(url, function (content, status) {
+      if (twtldDebug && status !== 200) {
+        console.log('markActive() Error marking tweet as read.');
+      }
       let results = JSON.parse(content);
       if (results['unread']) {
         let unread = parseInt(results['unread']);
