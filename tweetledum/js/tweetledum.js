@@ -158,22 +158,22 @@ let twtldUsername = '';
     }
     $(tweet).addClass('active');
     let id = $(tweet).prev().attr('data-id');
-    if ($(tweet).find('.twitter-tweet-rendered').length === 0) {
+    if (id) {
+      lastTweetID = id;
+    }
+    let blockquotes = $(tweet).find('blockquote');
+    if (blockquotes.length > 0) {
       // Tweet embed wasn't loaded.
-      let blockquote = $(tweet).find('blockquote');
-      if (blockquote.length > 0) {
+      blockquotes.each( function() {
         console.log('Reloading embed.');
-        $.each(blockquote[0].attributes,function(i,a){
+        let blockquote = $(this);
+        $.each(this.attributes,function(i,a) {
           if (a.name.indexOf('data-twitter-extracted') === 0) {
             blockquote.removeAttr(a.name);
             twttr.widgets.load($(tweet)[0]);
           }
         });
-      }
-    }
-
-    if (id) {
-      lastTweetID = id;
+      });
     }
     if (typeof id === 'undefined') {
       // No previous tweet.
