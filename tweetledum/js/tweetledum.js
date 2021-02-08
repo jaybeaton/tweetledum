@@ -117,7 +117,9 @@ let twtldUsername = '';
       noNewTweets = false;
 
       $('.tweetledum-feed').append(content);
-      $.getScript('https://platform.twitter.com/widgets.js');
+      setTimeout(function () {
+        twttr.widgets.load();
+      }, 1000);
 
       let tweets = $('.tweetledum-tweet');
       let totalTweets = tweets.length;
@@ -156,6 +158,20 @@ let twtldUsername = '';
     }
     $(tweet).addClass('active');
     let id = $(tweet).prev().attr('data-id');
+    if ($(tweet).find('.twitter-tweet-rendered').length === 0) {
+      // Tweet embed wasn't loaded.
+      let blockquote = $(tweet).find('blockquote');
+      if (blockquote.length > 0) {
+        console.log('Reloading embed.');
+        $.each(blockquote[0].attributes,function(i,a){
+          if (a.name.indexOf('data-twitter-extracted') === 0) {
+            blockquote.removeAttr(a.name);
+            twttr.widgets.load($(tweet)[0]);
+          }
+        });
+      }
+    }
+
     if (id) {
       lastTweetID = id;
     }

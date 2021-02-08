@@ -92,6 +92,7 @@ if (!$error) {
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
 <script src="js/jquery.visible.min.js"></script>
 <script src="js/tweetledum.js"></script>
+<script charset="utf-8" src="https://platform.twitter.com/widgets.js"></script>
 
 </body>
 </html>
