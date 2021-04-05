@@ -277,7 +277,10 @@ function get_messages($messages, $class) {
       <?php if ($lists) { ?>
         <ul>
           <?php foreach ($lists as $list) { ?>
-            <li><a href="bulk.php?list=<?php print urlencode($list); ?>"><?php print htmlentities($list); ?></a></li>
+            <li>
+              <a href="bulk.php?list=<?php print urlencode($list); ?>"><?php print htmlentities($list); ?></a>
+              [<a href="./#list:<?php print htmlentities($list) ?>">read</a>]
+            </li>
           <?php } ?>
         </ul>
       <?php } else { ?>

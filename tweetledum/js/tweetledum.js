@@ -1,5 +1,6 @@
 let twtldDebug = false;
 let twtldUsername = '';
+let twtldListname= '';
 
 (function ($) {
 
@@ -14,9 +15,13 @@ let twtldUsername = '';
     twtldDebug = true;
   }
   else if (window.location.hash) {
-    twtldUsername = window.location.hash.substring(1);
-    if (twtldDebug) {
-      console.log('Setting username to "' + twtldUsername + '".');
+    let hash = window.location.hash.substring(1);
+    let parts = hash.split(':');
+    if (parts[0] === 'list') {
+      twtldListname = parts[1];
+    }
+    else {
+      twtldUsername = hash;
     }
   }
 
@@ -71,6 +76,9 @@ let twtldUsername = '';
     let url = 'ajax.php?id=' + lastID + '&t=' + Date.now();
     if (twtldUsername) {
       url += '&user=' + encodeURI(twtldUsername);
+    }
+    else if (twtldListname) {
+      url += '&list=' + encodeURI(twtldListname);
     }
 
     if (twtldDebug) {
@@ -188,6 +196,9 @@ let twtldUsername = '';
     let url = 'mark-read.php?id=' + id;
     if (twtldUsername) {
       url += '&user=' + encodeURI(twtldUsername);
+    }
+    else if (twtldListname) {
+      url += '&list=' + encodeURI(twtldListname);
     }
     callAjax(url, function (content, status) {
       if (twtldDebug && status !== 200) {

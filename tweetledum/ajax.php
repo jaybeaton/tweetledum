@@ -49,8 +49,9 @@ if($db->connect_errno > 0){
   die('Unable to connect to database [' . $db->connect_error . ']');
 }
 
-$id = (!empty($_GET['id'])) ? $_GET['id'] : '';
+$id = (!empty($_GET['id'])) ? $_GET['id'] : 0;
 $user = (!empty($_GET['user'])) ? $_GET['user'] : '';
+$list = (!empty($_GET['list'])) ? $_GET['list'] : '';
 
 $sql = "SELECT id, `tweeter`, body, `data`, `timestamp`
   FROM tweetledum_tweets
@@ -59,12 +60,38 @@ $sql = "SELECT id, `tweeter`, body, `data`, `timestamp`
 if ($user) {
   $sql .= "AND tweeter = ? ";
 }
+if ($list) {
+  // Get the tweeters in list.
+  $tweeters = [];
+  $sql2 = "SELECT data
+    FROM tweetledum_lists
+    WHERE name = ? ";
+    // @todo - We need to actually filter on the tweetledum user!
+    // AND user = ? ";
+  $query2 = $db->prepare($sql2);
+  $query2->bind_param('s', $list);
+  $query2->execute();
+  if ($list_data = $query2->get_result()->fetch_object()->data) {
+    $list_data = unserialize($list_data);
+    if (is_array($list_data)) {
+      $tweeters = $list_data;
+    }
+  }
+  $placeholders = str_repeat('?,', count($tweeters) - 1) . '?';
+  $sql .= "AND tweeter IN ({$placeholders}) ";
+}
 
 $sql .= " ORDER BY id ASC
   LIMIT {$num_per_page} ";
 $query = $db->prepare($sql);
 
-if ($user) {
+if ($list) {
+  $types = str_repeat('s', count($tweeters));
+  $vars = $tweeters;
+  array_unshift($vars, $id);
+  $query->bind_param('s' . $types, ...$vars);
+}
+elseif ($user) {
   $query->bind_param('ss', $id, $user);
 }
 else {
