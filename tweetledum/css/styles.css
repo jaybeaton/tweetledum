@@ -198,8 +198,8 @@ div.count-label {
       position: fixed;
       left: 0;
       bottom: 0;
-      background-color: #ddd;
-      border-top: 1px solid;
+      background-color: #fff3cd;
+      border-top: 2px solid;
       width: 100%;
       padding-left: 30px;
   }
