@@ -43,6 +43,7 @@ body {
   width: 545px;
 }
 #load-more, .bulk-save {
+  cursor: pointer;
   width: 175px;
   margin: 20px 0 100px 0;
   color: #fff;
@@ -65,6 +66,15 @@ body {
 }
 .bulk-save {
   margin-bottom: 20px;
+}
+#load-more:hover, .bulk-save:hover {
+  background-color: #999;
+  border-color: #999;
+}
+.bulk-save--mark {
+  position: fixed;
+  left: 500px;
+  bottom: 0%;
 }
 .bulk-input {
   width: 300px;
@@ -171,3 +181,4 @@ div.count-label {
   border-radius: 5px;
   padding: 5px;
 }
+
