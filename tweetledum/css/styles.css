@@ -71,11 +71,6 @@ body {
   background-color: #999;
   border-color: #999;
 }
-.bulk-save--mark {
-  position: fixed;
-  left: 500px;
-  bottom: 0%;
-}
 .bulk-input {
   width: 300px;
   clear: both;
@@ -180,5 +175,33 @@ div.count-label {
   background-color: #bbb;
   border-radius: 5px;
   padding: 5px;
+}
+
+@media screen and (min-width: 775px) {
+/*
+  .bulk-save--mark {
+    position: fixed;
+    left: 500px;
+    bottom: 0%;
+  }
+*/
+  .bulk-save.bulk-save--list {
+      margin-top: 20px;
+  }
+  .list-fields {
+      padding: 0 50px;
+  }
+  .actions div {
+      display: inline;
+  }
+  .actions {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      background-color: #ddd;
+      border-top: 1px solid;
+      width: 100%;
+      padding-left: 30px;
+  }
 }
 
