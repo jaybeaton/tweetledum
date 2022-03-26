@@ -12,21 +12,22 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 120px;
+  width: 160px;
   padding: 20px;
   height: 100%;
+  overflow: auto;
 }
 .info-column div {
   float: left;
   clear: both;
-  width: 100px;
+  width: 140px;
   padding-bottom: 20px;
   position: relative;
 }
 .main {
   float: left;
   width: 600px;
-  margin-left: 20px;
+  margin-left: 70px;
 }
 #unread-count {
   font-size: 1.2em;
