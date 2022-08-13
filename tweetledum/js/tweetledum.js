@@ -83,7 +83,7 @@ let twtldListname= '';
       $('#current-view').text('#' + twtldListname);
     }
     else {
-      $('#current-view').remove();
+      $('#current-view').parent().remove();
     }
 
     if (twtldDebug) {
