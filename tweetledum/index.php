@@ -76,10 +76,10 @@ if (!$error) {
   }
 ?>
     <div>
-        <span id="unread-count">0</span>
+        <span id="current-view"></span>
     </div>
     <div>
-        <span id="current-view"></span>
+        <span id="unread-count">0</span>
     </div>
     <div class="tweetledum-controls" style="display: none;">
         <button class="tweetledum-controls-up" data-keycode="75">⬆️</button>
