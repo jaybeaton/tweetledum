@@ -12,7 +12,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 150px;
+  width: 210px;
   padding: 20px;
   height: 100%;
   overflow: auto;
@@ -27,7 +27,7 @@ body {
 .main {
   float: left;
   width: 600px;
-  margin-left: 60px;
+  margin-left: 120px;
 }
 #unread-count {
   font-size: 1.2em;
@@ -38,6 +38,13 @@ body {
 }
 #unread-count.loading {
   background-color: #fff3cd;
+}
+#current-view {
+  font-size: 1.2em;
+  color: #666;
+  background-color: #bbb;
+  border-radius: 5px;
+  padding: 5px;
 }
 .tweetledum-feed {
   margin: 20px 0;
