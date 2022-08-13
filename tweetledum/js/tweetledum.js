@@ -80,7 +80,7 @@ let twtldListname= '';
     }
     else if (twtldListname) {
       url += '&list=' + encodeURI(twtldListname);
-      $('#current-view').text(twtldListname);
+      $('#current-view').text('#' + twtldListname);
     }
     else {
       $('#current-view').remove();
