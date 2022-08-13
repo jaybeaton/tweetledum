@@ -76,7 +76,7 @@ let twtldListname= '';
     let url = 'ajax.php?id=' + lastID + '&t=' + Date.now();
     if (twtldUsername) {
       url += '&user=' + encodeURI(twtldUsername);
-      $('#current-view').text(twtldUsername);
+      $('#current-view').text('@' + twtldUsername);
     }
     else if (twtldListname) {
       url += '&list=' + encodeURI(twtldListname);
